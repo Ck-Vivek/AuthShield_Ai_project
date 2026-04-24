@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+<div class="app">
+
+<!-- LOGIN PAGE -->
+<div class="page active" id="page-login" style="display:flex;align-items:center;justify-content:center;min-height:100vh;position:fixed;width:100%;height:100%;top:0;left:0;z-index:9999;background:var(--bg1);">
+  <div class="login-container" style="max-width:420px;width:100%;padding:48px;text-align:center;">
+    <div class="logo" style="display:flex;justify-content:center;margin-bottom:48px;">
+      <div class="logo-icon">
+        <svg width="48" height="48" viewBox="0 0 32 32" fill="none">
+          <polygon points="16,2 28,9 28,23 16,30 4,23 4,9" fill="none" stroke="#00c8f0" stroke-width="1.5"/>
+          <polygon points="16,8 22,12 22,20 16,24 10,20 10,12" fill="rgba(0,200,240,0.15)" stroke="#00c8f0" stroke-width="1"/>
+          <circle cx="16" cy="16" r="3" fill="#00c8f0"/>
+          <line x1="16" y1="2" x2="16" y2="8" stroke="#00c8f0" stroke-width="1" opacity="0.5"/>
+          <line x1="28" y1="9" x2="22" y2="12" stroke="#00c8f0" stroke-width="1" opacity="0.5"/>
+          <line x1="28" y1="23" x2="22" y2="20" stroke="#00c8f0" stroke-width="1" opacity="0.5"/>
+          <line x1="16" y1="30" x2="16" y2="24" stroke="#00c8f0" stroke-width="1" opacity="0.5"/>
+          <line x1="4" y1="23" x2="10" y2="20" stroke="#00c8f0" stroke-width="1" opacity="0.5"/>
+          <line x1="4" y1="9" x2="10" y2="12" stroke="#00c8f0" stroke-width="1" opacity="0.5"/>
+        </svg>
+      </div>
+    </div>
+    
+    <h1 style="font-family:var(--font);font-size:32px;font-weight:700;color:var(--text);margin-bottom:12px;letter-spacing:-0.5px;">AuthShield</h1>
+    <p style="font-family:var(--mono);font-size:13px;color:var(--text3);margin-bottom:48px;letter-spacing:1px;">AI SECURITY ECOSYSTEM</p>
+    
+    <h2 style="font-family:var(--font);font-size:18px;font-weight:600;color:var(--text);margin-bottom:32px;">Analyze OAuth Supply Chain Risks</h2>
+    
+    <!-- Email Input -->
+    <div style="margin-bottom:20px;text-align:left;">
+      <label style="display:block;font-family:var(--mono);font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Email</label>
+      <input type="email" id="login-email" placeholder="your@company.com" style="width:100%;padding:12px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--mono);font-size:13px;transition:all 0.2s;outline:none;" onkeypress="if(event.key==='Enter')handleLogin()">
+    </div>
+    
+    <!-- Password Input -->
+    <div style="margin-bottom:32px;text-align:left;">
+      <label style="display:block;font-family:var(--mono);font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Password</label>
+      <input type="password" id="login-password" placeholder="••••••••" style="width:100%;padding:12px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--mono);font-size:13px;transition:all 0.2s;outline:none;" onkeypress="if(event.key==='Enter')handleLogin()">
+    </div>
+    
+    <!-- Login Button -->
+    <button onclick="handleLogin()" style="width:100%;padding:14px;background:linear-gradient(135deg,#00c8f0,#0088cc);color:white;border:none;border-radius:8px;font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;transition:all 0.3s;margin-bottom:16px;" onmouseover="this.style.boxShadow='0 8px 24px rgba(0,200,240,0.3)'" onmouseout="this.style.boxShadow='none'">
+      Sign In
+    </button>
+    
+    <div style="display:flex;align-items:center;margin-bottom:20px;opacity:0.4;">
+      <div style="flex:1;height:1px;background:var(--border);"></div>
+      <span style="padding:0 12px;font-family:var(--mono);font-size:11px;color:var(--text3);">OR CONTINUE WITH</span>
+      <div style="flex:1;height:1px;background:var(--border);"></div>
+    </div>
+    
+    <!-- Google Login -->
+    <button onclick="handleGoogleLogin()" style="width:100%;padding:14px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;transition:all 0.3s;display:flex;align-items:center;justify-content:center;gap:10px;" onmouseover="this.style.borderColor='#00c8f0'" onmouseout="this.style.borderColor='var(--border)'">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032 c0-3.331,2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.461,2.268,15.365,1,12.545,1 C6.777,1,2,5.777,2,11.545c0,5.769,4.777,10.545,10.545,10.545c6.045,0,10.579-4.543,10.579-10.501c0-0.693-0.076-1.36-0.22-2.042 H12.545z" fill="#4285F4"/>
+      </svg>
+      Sign in with Google
+    </button>
+    
+    <p style="font-family:var(--mono);font-size:11px;color:var(--text3);margin-top:32px;">Demo Mode • No actual authentication required</p>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav style="display:none;" id="main-nav">
+  <div class="logo" onclick="showPage('dashboard')">
+    <div class="logo-icon">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <polygon points="16,2 28,9 28,23 16,30 4,23 4,9" fill="none" stroke="#00c8f0" stroke-width="1.5"/>
+        <polygon points="16,8 22,12 22,20 16,24 10,20 10,12" fill="rgba(0,200,240,0.15)" stroke="#00c8f0" stroke-width="1"/>
+        <circle cx="16" cy="16" r="3" fill="#00c8f0"/>
+        <line x1="16" y1="2" x2="16" y2="8" stroke="#00c8f0" stroke-width="1" opacity="0.5"/>
+        <line x1="28" y1="9" x2="22" y2="12" stroke="#00c8f0" stroke-width="1" opacity="0.5"/>
+        <line x1="28" y1="23" x2="22" y2="20" stroke="#00c8f0" stroke-width="1" opacity="0.5"/>
+        <line x1="16" y1="30" x2="16" y2="24" stroke="#00c8f0" stroke-width="1" opacity="0.5"/>
+        <line x1="4" y1="23" x2="10" y2="20" stroke="#00c8f0" stroke-width="1" opacity="0.5"/>
+        <line x1="4" y1="9" x2="10" y2="12" stroke="#00c8f0" stroke-width="1" opacity="0.5"/>
+      </svg>
+    </div>
+    <div>
+      <div class="logo-text">AuthShield</div>
+      <div class="logo-sub">AI · Security</div>
+    </div>
+  </div>
+  <a onclick="showPage('dashboard')" class="active" id="nav-dashboard">Dashboard</a>
+  <a onclick="showPage('graph')" id="nav-graph">Graph</a>
+  <a onclick="showPage('simulate')" id="nav-simulate">Simulate</a>
+  <a onclick="showPage('alerts')" id="nav-alerts">Alerts</a>
+  <a onclick="showPage('tools')" id="nav-tools">Tools</a>
+  <div class="nav-right">
+    <div class="live-dot"><div class="pulse"></div>LIVE</div>
+    <div class="nav-avatar" onclick="showUserProfile()" style="cursor:pointer;" title="View Profile">BH</div>
+  </div>
+</nav>
+
+<!-- DASHBOARD PAGE -->
+<div class="page" id="page-dashboard">
+  <div class="hero">
+    <div class="risk-gauge-wrap">
+      <div class="gauge-label">Org Risk Score</div>
+      <svg width="160" height="110" viewBox="0 0 160 110">
+        <defs>
+          <filter id="redglow"><feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <!-- bg arc -->
+        <path d="M 20 90 A 60 60 0 1 1 140 90" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="12" stroke-linecap="round"/>
+        <!-- risk arc: 73% of semicircle ~= 263deg worth, start from 180deg -->
+        <path d="M 20 90 A 60 60 0 1 1 140 90" fill="none" stroke="url(#riskGrad)" stroke-width="12" stroke-linecap="round" stroke-dasharray="235 75" style="filter:drop-shadow(0 0 8px rgba(255,45,85,0.6))"/>
+        <defs>
+          <linearGradient id="riskGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#ffaa00"/>
+            <stop offset="60%" stop-color="#ff5533"/>
+            <stop offset="100%" stop-color="#ff2d55"/>
+          </linearGradient>
+        </defs>
+        <text x="80" y="75" text-anchor="middle" fill="#ff2d55" font-family="JetBrains Mono,monospace" font-size="28" font-weight="700">73</text>
+        <text x="80" y="93" text-anchor="middle" fill="#4a5a78" font-family="JetBrains Mono,monospace" font-size="11">/ 100</text>
+      </svg>
+      <div class="gauge-tag">⚠ High Risk</div>
+      <div class="gauge-trend">↑ +4 from last week</div>
+    </div>
+    <div class="stat-cards">
+      <div class="stat-card cyan">
+        <div class="stat-icon cyan">🔌</div>
+        <div class="stat-num cyan">24</div>
+        <div class="stat-label">Connected Tools</div>
+        <div class="stat-change" style="color:var(--cyan)">+2 this week</div>
+      </div>
+      <div class="stat-card red">
+        <div class="stat-icon red">☣</div>
+        <div class="stat-num red">3</div>
+        <div class="stat-label">Critical Risk Tools</div>
+        <div class="stat-change" style="color:var(--red)">↑ +1 new</div>
+      </div>
+      <div class="stat-card amber">
+        <div class="stat-icon amber">🔔</div>
+        <div class="stat-num amber">7</div>
+        <div class="stat-label">Active Alerts</div>
+        <div class="stat-change" style="color:var(--amber)">3 unresolved</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-icon green">🛡</div>
+        <div class="stat-num green">12</div>
+        <div class="stat-label">Systems Protected</div>
+        <div class="stat-change" style="color:var(--green)">100% coverage</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Trust Graph Preview</span>
+        <button class="btn btn-ghost" onclick="showPage('graph')">Full View →</button>
+      </div>
+      <canvas id="mini-graph" width="400" height="180"></canvas>
+    </div>
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Recent Alerts</span>
+        <span class="panel-badge red">7 Active</span>
+      </div>
+      <div class="alert-item">
+        <div class="alert-sev critical"></div>
+        <div><div class="alert-title">Zapier — Excessive scope escalation</div><div class="alert-meta">CRITICAL · 4 min ago</div></div>
+      </div>
+      <div class="alert-item">
+        <div class="alert-sev critical"></div>
+        <div><div class="alert-title">GitHub Copilot — Token exfiltration attempt</div><div class="alert-meta">CRITICAL · 12 min ago</div></div>
+      </div>
+      <div class="alert-item">
+        <div class="alert-sev high"></div>
+        <div><div class="alert-title">Notion AI — Unexpected API burst</div><div class="alert-meta">HIGH · 1 hr ago</div></div>
+      </div>
+      <div class="alert-item">
+        <div class="alert-sev high"></div>
+        <div><div class="alert-title">Linear — Cross-org data leak</div><div class="alert-meta">HIGH · 2 hr ago</div></div>
+      </div>
+      <div class="alert-item">
+        <div class="alert-sev medium"></div>
+        <div><div class="alert-title">Slack Bot — Unusual webhook trigger</div><div class="alert-meta">MEDIUM · 3 hr ago</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="risk-table-wrap">
+    <div class="panel-header">
+      <span class="panel-title">Top Risky Connections</span>
+      <button class="btn btn-ghost" onclick="showPage('tools')">View All Tools →</button>
+    </div>
+    <table>
+      <thead><tr>
+        <th>Tool</th><th>Permission Scope</th><th>Risk Score</th><th>Connections</th><th>Action</th>
+      </tr></thead>
+      <tbody>
+        <tr><td><div class="tool-name-cell"><div class="tool-icon" style="background:rgba(255,45,85,0.1);font-size:16px;">⚡</div>Zapier</div></td><td><span class="scope-badge">admin:all · write:org</span></td><td><div class="risk-bar-wrap"><div class="risk-bar high" style="width:94%"></div></div> <span style="font-family:var(--mono);font-size:11px;color:var(--red);margin-left:6px;">94</span></td><td><span style="font-family:var(--mono);font-size:11px;">14 systems</span></td><td><button class="btn btn-danger" onclick="confirmRevoke('Zapier')">Revoke</button></td></tr>
+        <tr><td><div class="tool-name-cell"><div class="tool-icon" style="background:rgba(255,170,0,0.1);font-size:16px;">🤖</div>GitHub Copilot</div></td><td><span class="scope-badge">repo:all · secrets:read</span></td><td><div class="risk-bar-wrap"><div class="risk-bar high" style="width:88%"></div></div> <span style="font-family:var(--mono);font-size:11px;color:var(--red);margin-left:6px;">88</span></td><td><span style="font-family:var(--mono);font-size:11px;">9 systems</span></td><td><button class="btn btn-danger" onclick="confirmRevoke('GitHub Copilot')">Revoke</button></td></tr>
+        <tr><td><div class="tool-name-cell"><div class="tool-icon" style="background:rgba(255,170,0,0.1);font-size:16px;">📝</div>Notion AI</div></td><td><span class="scope-badge">workspace:read · pages:edit</span></td><td><div class="risk-bar-wrap"><div class="risk-bar medium" style="width:72%"></div></div> <span style="font-family:var(--mono);font-size:11px;color:var(--amber);margin-left:6px;">72</span></td><td><span style="font-family:var(--mono);font-size:11px;">6 systems</span></td><td><button class="btn btn-ghost" onclick="openReview('Notion AI')">Review</button></td></tr>
+        <tr><td><div class="tool-name-cell"><div class="tool-icon" style="background:rgba(0,200,240,0.1);font-size:16px;">🔷</div>Linear</div></td><td><span class="scope-badge">issues:write · teams:read</span></td><td><div class="risk-bar-wrap"><div class="risk-bar medium" style="width:61%"></div></div> <span style="font-family:var(--mono);font-size:11px;color:var(--amber);margin-left:6px;">61</span></td><td><span style="font-family:var(--mono);font-size:11px;">4 systems</span></td><td><button class="btn btn-ghost" onclick="openReview('Linear')">Review</button></td></tr>
+        <tr><td><div class="tool-name-cell"><div class="tool-icon" style="background:rgba(0,240,144,0.1);font-size:16px;">💬</div>Slack Bot</div></td><td><span class="scope-badge">channels:read · messages:write</span></td><td><div class="risk-bar-wrap"><div class="risk-bar low" style="width:38%"></div></div> <span style="font-family:var(--mono);font-size:11px;color:var(--green);margin-left:6px;">38</span></td><td><span style="font-family:var(--mono);font-size:11px;">3 systems</span></td><td><button class="btn btn-ghost" onclick="openReview('Slack Bot')">Review</button></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- GRAPH PAGE -->
+<div class="page" id="page-graph">
+  <div class="graph-stats">
+    <div class="graph-stat"><div class="graph-stat-num">24</div><div class="graph-stat-label">Nodes</div></div>
+    <div class="graph-stat"><div class="graph-stat-num" style="color:var(--red)">3</div><div class="graph-stat-label">Critical</div></div>
+    <div class="graph-stat"><div class="graph-stat-num" style="color:var(--amber)">7</div><div class="graph-stat-label">High Risk</div></div>
+    <div class="graph-stat"><div class="graph-stat-num">47</div><div class="graph-stat-label">Connections</div></div>
+    <div class="graph-stat"><div class="graph-stat-num" style="font-size:13px;color:var(--red)">Zapier→Admin</div><div class="graph-stat-label">Highest Risk Path</div></div>
+  </div>
+  <div class="graph-layout">
+    <div>
+      <div class="filter-panel">
+        <div class="filter-title">Filter Graph</div>
+        <div class="filter-group">
+          <div class="filter-group-label">Risk Level</div>
+          <span class="filter-chip active" onclick="toggleChip(this)"><span class="dot" style="background:var(--red)"></span>Critical</span>
+          <span class="filter-chip active" onclick="toggleChip(this)"><span class="dot" style="background:var(--amber)"></span>High</span>
+          <span class="filter-chip active" onclick="toggleChip(this)"><span class="dot" style="background:var(--cyan)"></span>Medium</span>
+          <span class="filter-chip active" onclick="toggleChip(this)"><span class="dot" style="background:var(--green)"></span>Safe</span>
+        </div>
+        <div class="filter-group">
+          <div class="filter-group-label">Tool Type</div>
+          <span class="filter-chip active" onclick="toggleChip(this)">AI / LLM</span>
+          <span class="filter-chip active" onclick="toggleChip(this)">Productivity</span>
+          <span class="filter-chip active" onclick="toggleChip(this)">Dev Tools</span>
+          <span class="filter-chip active" onclick="toggleChip(this)">Automation</span>
+        </div>
+        <div class="filter-group">
+          <div class="filter-group-label">Permissions</div>
+          <span class="filter-chip" onclick="toggleChip(this)">Admin Scope</span>
+          <span class="filter-chip" onclick="toggleChip(this)">Write Access</span>
+          <span class="filter-chip" onclick="toggleChip(this)">Read Only</span>
+        </div>
+        <button class="btn btn-ghost" style="width:100%;margin-top:8px;font-size:11px;" onclick="showPage('simulate')">→ Simulate Breach</button>
+      </div>
+    </div>
+    <div>
+      <div id="graph-canvas-wrap">
+        <canvas id="graph-canvas"></canvas>
+        <div class="node-tooltip" id="node-tooltip">
+          <div class="tooltip-name" id="tt-name">—</div>
+          <div class="tooltip-risk" id="tt-risk"></div>
+          <div class="tooltip-perm" style="color:var(--text3);font-size:10px;margin-bottom:4px;">PERMISSIONS</div>
+          <div id="tt-perms"></div>
+          <div style="margin-top:12px;display:flex;gap:8px;">
+            <button class="btn btn-ghost" style="font-size:10px;flex:1;" onclick="viewGraphNodeDetails()">View Details</button>
+            <button class="btn btn-danger" style="font-size:10px;flex:1;" onclick="runBreachFromTooltip()">Simulate Breach</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SIMULATE PAGE -->
+<div class="page" id="page-simulate">
+  <div class="sim-layout">
+    <div class="sim-canvas-wrap">
+      <canvas id="sim-canvas"></canvas>
+    </div>
+    <div class="sim-panel">
+      <div class="sim-ctrl">
+        <div class="panel-title" style="margin-bottom:16px;">Breach Simulator</div>
+        <div class="form-group">
+          <label class="form-label">Compromised Tool</label>
+          <select id="breach-tool">
+            <option value="zapier">⚡ Zapier (Risk: 94)</option>
+            <option value="copilot">🤖 GitHub Copilot (Risk: 88)</option>
+            <option value="notion">📝 Notion AI (Risk: 72)</option>
+            <option value="linear">🔷 Linear (Risk: 61)</option>
+            <option value="slack">💬 Slack Bot (Risk: 38)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">How Attacker Entered (Entry Clue)</label>
+          <select id="attack-vector" onchange="updateAttackVectorHelper()">
+            <option value="">-- Choose what suspicious behavior you observed --</option>
+            <option value="token_hijack">User redirected to suspicious OAuth login page</option>
+            <option value="scope_elevation">App suddenly requested powerful admin permissions</option>
+            <option value="refresh_token_reuse">Access returned repeatedly after logout/session expiry</option>
+            <option value="supply_chain">Issue started after plugin/dependency update</option>
+          </select>
+          <div style="margin-top:8px;font-family:var(--mono);font-size:10px;color:var(--text3);line-height:1.4;">Choose the incident clue you saw. We translate it into the likely attack path automatically.</div>
+          <div id="vector-context" style="margin-top:8px;padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:rgba(0,200,240,0.04);font-size:11px;color:var(--text2);line-height:1.4;">Pick an entry clue to see how the attacker likely got in.</div>
+        </div>
+        <button class="btn btn-danger" style="width:100%;padding:10px;font-size:12px;" onclick="runSimulation()">▶ Simulate Breach</button>
+        <button class="btn btn-ghost" style="width:100%;padding:10px;font-size:12px;margin-top:8px;" onclick="resetSimulation()">↻ Reset Simulation</button>
+      </div>
+      <div class="sim-result" id="sim-result">
+        <div class="panel-title" style="margin-bottom:14px;">Simulation Results</div>
+        <div id="sim-idle" style="text-align:center;padding:30px 0;color:var(--text3);font-size:12px;">Run a simulation to see results</div>
+        <div id="sim-output" style="display:none;">
+          <div class="blast-metric"><span class="blast-label">Blast Radius</span><span class="blast-value red" id="blast-radius">—</span></div>
+          <div class="blast-metric"><span class="blast-label">Time to Full Compromise</span><span class="blast-value amber" id="blast-time">—</span></div>
+          <div class="blast-metric"><span class="blast-label">Data at Risk</span><span class="blast-value red" id="blast-data">—</span></div>
+          <div class="blast-metric"><span class="blast-label">Critical Systems Hit</span><span class="blast-value red" id="blast-systems">—</span></div>
+          <div class="blast-metric"><span class="blast-label">Selected Attack Vector</span><span class="blast-value cyan" id="vector-label">—</span></div>
+          <div style="padding-top:8px;color:var(--text2);font-size:11px;line-height:1.5;">
+            <div style="font-family:var(--mono);font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Why this changes impact</div>
+            <div id="vector-meaning">—</div>
+          </div>
+          <div class="prop-path">
+            <div class="filter-group-label" style="margin-bottom:8px;">Propagation Path</div>
+            <div id="prop-steps"></div>
+          </div>
+          <div style="margin-top:14px;">
+            <div class="filter-group-label" style="margin-bottom:8px;">Recommended Actions</div>
+            <div id="rec-actions"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ALERTS PAGE -->
+<div class="page" id="page-alerts">
+  <div class="alerts-header">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <span class="panel-title">Security Alerts</span>
+      <div class="live-dot"><div class="pulse"></div>LIVE</div>
+    </div>
+    <div class="filter-tabs">
+      <span class="filter-tab active" onclick="filterAlerts('all',this)">All (9)</span>
+      <span class="filter-tab" onclick="filterAlerts('critical',this)">Critical (2)</span>
+      <span class="filter-tab" onclick="filterAlerts('high',this)">High (3)</span>
+      <span class="filter-tab" onclick="filterAlerts('medium',this)">Medium (2)</span>
+      <span class="filter-tab" onclick="filterAlerts('low',this)">Low (1)</span>
+      <span class="filter-tab" onclick="filterAlerts('resolved',this)">Resolved (2)</span>
+    </div>
+  </div>
+  <div id="alerts-list"></div>
+</div>
+
+<!-- TOOLS PAGE -->
+<div class="page" id="page-tools">
+  <div class="tools-header">
+    <div class="search-bar"><input type="text" placeholder="Search tools..." oninput="filterTools(this.value)"></div>
+    <select id="tools-category-filter" onchange="setToolsCategory(this.value)" style="background:var(--bg4);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:10px;font-family:var(--font);font-size:13px;cursor:pointer;outline:none;">
+      <option value="all">All Categories</option>
+      <option value="AI">AI / LLM</option>
+      <option value="Productivity">Productivity</option>
+      <option value="Developer">Developer</option>
+      <option value="Automation">Automation</option>
+      <option value="Communications">Communications</option>
+      <option value="Design">Design</option>
+      <option value="Platform">Platform</option>
+      <option value="Development">Development</option>
+    </select>
+    <select id="tools-sort" onchange="setToolsSort(this.value)" style="background:var(--bg4);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:10px;font-family:var(--font);font-size:13px;cursor:pointer;outline:none;">
+      <option value="risk_desc">Risk: High to Low</option>
+      <option value="name_asc">Name: A-Z</option>
+      <option value="recent">Recently Active</option>
+    </select>
+    <button class="btn btn-primary" style="padding:9px 18px;font-size:12px;" onclick="openAddToolModal()">+ Add Tool</button>
+  </div>
+  <div style="margin-bottom:14px;display:flex;gap:8px;flex-wrap:wrap;">
+    <button class="filter-tab active" data-risk="all" onclick="setToolsRisk('all', this)">All</button>
+    <button class="filter-tab" data-risk="critical" onclick="setToolsRisk('critical', this)">Critical</button>
+    <button class="filter-tab" data-risk="high" onclick="setToolsRisk('high', this)">High</button>
+    <button class="filter-tab" data-risk="medium" onclick="setToolsRisk('medium', this)">Medium</button>
+    <button class="filter-tab" data-risk="low" onclick="setToolsRisk('low', this)">Low</button>
+  </div>
+  <div class="tools-grid" id="tools-grid"></div>
+</div>
+
+</div><!-- /app -->
+
+<!-- ADD TOOL MODAL -->
+<div id="add-tool-modal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);align-items:center;justify-content:center;">
+  <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:18px;padding:32px;width:480px;max-width:95vw;position:relative;box-shadow:0 24px 80px rgba(0,0,0,0.6);">
+    <button onclick="closeAddToolModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:var(--text3);font-size:20px;cursor:pointer;line-height:1;">&times;</button>
+    <div style="font-size:15px;font-weight:700;margin-bottom:4px;">Connect New Tool</div>
+    <div style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-bottom:24px;letter-spacing:1px;">ADD OAUTH INTEGRATION</div>
+    <div class="form-group">
+      <label class="form-label">Tool Name</label>
+      <input id="at-name" type="text" placeholder="e.g. Salesforce AI" style="width:100%;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:9px 14px;border-radius:8px;font-family:var(--font);font-size:13px;outline:none;">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Category</label>
+      <select id="at-cat" style="width:100%;">
+        <option>AI</option><option>Developer</option><option>Productivity</option>
+        <option>Communications</option><option>Design</option><option>Platform</option><option>Development</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">OAuth Scopes (comma separated)</label>
+      <input id="at-scopes" type="text" placeholder="e.g. read, write, admin" style="width:100%;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:9px 14px;border-radius:8px;font-family:var(--mono);font-size:12px;outline:none;">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Connected Systems (comma separated)</label>
+      <input id="at-systems" type="text" placeholder="e.g. GitHub, AWS, Slack" style="width:100%;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:9px 14px;border-radius:8px;font-family:var(--mono);font-size:12px;outline:none;">
+    </div>
+    <div style="display:flex;gap:10px;margin-top:8px;">
+      <button class="btn btn-ghost" onclick="closeAddToolModal()" style="flex:1;padding:10px;">Cancel</button>
+      <button class="btn btn-primary" onclick="submitAddTool()" style="flex:2;padding:10px;font-size:12px;">&#10003; Connect Tool</button>
+    </div>
+  </div>
+</div>
+<script type="module" src="script.js"></script>
+</body>
+</html>
